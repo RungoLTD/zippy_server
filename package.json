@@ -1,0 +1,50 @@
+{
+  "name": "zippy-server",
+  "version": "1.1.0",
+  "description": "Zippy REST API Server",
+  "main": "app.js",
+  "scripts": {
+    "start": "SET NODE_ENV=production && nodemon app.js",
+    "prod": "NODE_ENV=production node app.js",
+    "testing": "NODE_ENV=testing node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tunnel": "ngrok http 3001"
+  },
+  "config": {
+    "chat_id": -1001235213570
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "apple-signin": "^1.0.9",
+    "apple-signin-auth": "^1.4.1",
+    "base64-to-image": "^1.0.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.5",
+    "crypto-js": "^3.1.9-1",
+    "custom-env": "^1.0.1",
+    "dialogflow": "^4.0.3",
+    "ejs": "^3.1.6",
+    "express": "^4.16.4",
+    "express-bearer-token": "^2.4.0",
+    "express-fileupload": "^1.2.1",
+    "firebase-functions": "^3.2.0",
+    "https": "^1.0.0",
+    "languagedetect": "^2.0.0",
+    "moment": "^2.29.1",
+    "mysql": "^2.17.1",
+    "node-cron": "^2.0.3",
+    "nodemailer": "^6.6.3",
+    "nodemon": "^2.0.12",
+    "pm2-windows-startup": "^1.0.3",
+    "socket.io": "^2.4.1",
+    "verify-apple-id-token": "^1.0.1",
+    "ws": "^7.5.3"
+  },
+  "devDependencies": {
+    "ngrok": "^3.2.5"
+  },
+  "keywords": []
+}

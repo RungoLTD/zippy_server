@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Достижении</title>
+    <%- include('../templates/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <button class="btn btn-success" onclick="open_modal_create_achievement();">Добавить</button>
+            <% if(achievements != false) { %>
+                <h3>Достижении</h3>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Уровень</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Цвет</th>
+                    <th scope="col">Картинка</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% achievements.forEach(function(achievement) { %>
+                        <tr>
+                            <td scope="row"><%= achievement.id %></td>
+                            <td><%= achievement.title_ru %></td>
+                            <td><%= achievement.description_ru %></td>
+                            <td><%= achievement.title_en %></td>
+                            <td><%= achievement.description_en %></td>
+                            <td><%= achievement.cat_mood_append %></td>
+                            <td><%= achievement.coins_count %></td>
+                            <td style="background-color: <%= achievement.color %>;"><%= achievement.color %></td>
+                            <td><img width="100px" height="100px" src="<%= achievement.image_url %>"></td>
+                            <td><a href="#" onclick="open_modal_update_achievement(event)"><i class="bi bi-pencil"></i></a></td>
+                          </tr>
+                    <% }); %>
+                  
+                </tbody>
+            </table>
+            <% } %>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="modal fade" id="achievement_modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Добавление/изменение достижения</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="achievement_form" method="POST">
+              <input type="hidden" name="achievement_id" id="achievement_id">
+              <div class="form-group">
+                <label>Наименование RU</label>
+                <input class="form-control" required id="name_ru" type="text" name="name_ru">
+              </div>
+              <div class="form-group">
+                <label>Описание RU</label>
+                <input class="form-control" required id="description_ru" type="text" name="description_ru">
+              </div>
+              <div class="form-group">
+                <label>Наименование EN</label>
+                <input class="form-control" required id="name_en" type="text" name="name_en">
+              </div>
+              <div class="form-group">
+                <label>Описание EN</label>
+                <input class="form-control" required id="description_en" type="text" name="description_en">
+              </div>
+              <div class="form-group">
+                <label>Уровень</label>
+                <input class="form-control" required id="cat_mood_append" type="number" name="cat_mood_append">
+              </div>
+              <div class="form-group">
+                <label>Цена</label>
+                <input class="form-control" required id="coins_count" type="number" name="coins_count">
+              </div>
+              <div class="form-group">
+                <label>Цвет</label>
+                <input class="form-control" required id="color" type="text" name="color">
+              </div>
+              <div class="form-group">
+                <label>Картинка</label>
+                <input class="form-control" id="image_url" type="file" name="image_url">
+              </div>
+              <div class="form-group">
+                <button type="submit" id="achievement_form_btn" class="btn btn-success">Добавить</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function open_modal_create_achievement(){
+        $("#name_ru").val("");
+        $("#description_ru").val("");
+        $("#name_en").val("");
+        $("#description_en").val("");
+        $("#cat_mood_append").val(0);
+        $("#coins_count").val(0);
+        $("#color").val("");
+        $("#image_url").val("");
+        $("#achievement_form").attr('action', '/web/achievements/create')
+        $("#achievement_form_btn").html("Добавить")
+        var modal = $("#achievement_modal");
+        modal.modal('show');
+      }
+      function open_modal_update_achievement(event){
+        var tr = $($(event.target).parent().parent().parent());
+        var id = $(tr.children()[0]).text();
+        var name_ru = $(tr.children()[1]).text();
+        var description_ru = $(tr.children()[2]).text();
+        var name_en = $(tr.children()[3]).text();
+        var description_en = $(tr.children()[4]).text();
+        var cat_mood_append = $(tr.children()[5]).text();
+        var coins_count = $(tr.children()[6]).text();
+        var color = $(tr.children()[7]).text();
+        $("#name_ru").val(name_ru);
+        $("#description_ru").val(description_ru);
+        $("#name_en").val(name_en);
+        $("#description_en").val(description_en);
+        $("#cat_mood_append").val(cat_mood_append);
+        $("#coins_count").val(coins_count);
+        $("#color").val(color);
+        $("#image_url").val("");
+        $("#achievement_id").val(id);
+        $("#achievement_form").attr('action', '/web/achievements/update');
+        $("#achievement_form_btn").html("Изменить");
+        var modal = $("#achievement_modal");
+        modal.modal('show');
+      }
+    </script> 
+  </main>
+</body>
+</html>

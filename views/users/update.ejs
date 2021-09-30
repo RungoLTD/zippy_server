@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Пользователь</title>
+    <%- include('../templates/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <% if(user_data != false) { %>
+                <h3>Пользователь с id <%= user_data.id %></h3>
+                <form method="POST">
+                  <input type="hidden" name="id" value="<%= user_data.id %>"> 
+                  <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" name="name" class="form-control" value="<%= user_data.name %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Скин</label>
+                    <select class="form-control" name="skin">
+                      <% skins.forEach(function(skin) { %>
+                        <% if(skin.id == user_data.skin){ %>
+                          <option selected value="<%= skin.id %>"><%= skin.title %></option>
+                        <% } else { %>
+                          <option value="<%= skin.id %>"><%= skin.title %></option>
+                        <% } %>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="text" name="email" class="form-control" value="<%= user_data.email %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Аватар</label>
+                    <input type="text" name="avatar" class="form-control" value="<%= user_data.avatar %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Настроение</label>
+                    <input type="number" name="mood" class="form-control" value="<%= user_data.mood %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Количество шагов в день</label>
+                    <input type="number" name="step_count_normal" class="form-control" value="<%= user_data.step_count_normal %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Хвалебные слова</label>
+                    <input type="text" name="trophy_name" class="form-control" value="<%= user_data.trophy_name %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Ругающие слова</label>
+                    <input type="text" name="rebuke_name" class="form-control" value="<%= user_data.rebuke_name %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Вес</label>
+                    <input type="number" name="weight" class="form-control" value="<%= user_data.weight %>">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Рост</label>
+                    <input type="number" name="height" class="form-control" value="<%= user_data.height %>">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                  </div>
+                </form>
+            <% } %>
+        </div>
+    </div>
+  </main>
+</body>
+</html>

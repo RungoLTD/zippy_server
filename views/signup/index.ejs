@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Регистрация</title>
+    <%- include('../templates/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form method="POST" action="/web/signup-post">
+              <input type="hidden" name="_csrf" value="KPCvPVQUz4hvn5NelU5bfAYNrritPkpvwJTNu-dqhL5ll9VfJ0L20QPx1xbKPREwUFiY__UGBT6yzIr8jzvm3w==">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Логин</label>
+                    <input type="text" required class="form-control" name="username" placeholder="Введите логин">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Пароль</label>
+                    <input type="password" required class="form-control" name="password" placeholder="Введите пароль">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Повторный пароль</label>
+                    <input type="password" required class="form-control" name="repeat_password" placeholder="Повторно введите пароль">
+                  </div>
+                  <button type="submit" style="width: 100%;" class="btn btn-success">Регистрация</button>
+            </form>
+        </div>
+    </div>
+  </main>
+</body>
+</html>

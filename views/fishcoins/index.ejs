@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Фишкоины</title>
+    <%- include('../templates/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <h3>Фишкоины</h3>
+          <button class="btn btn-success" onclick="open_modal_create_fishcoin()">Добавить</button>
+            <% if(fishcoins != false) { %>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Фишкион</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% fishcoins.forEach(function(fishcoin) { %>
+                        <tr>
+                            <td scope="row"><%= fishcoin.id %></td>
+                            <td><%= fishcoin.fishcoin %></td>
+                            <td><%= fishcoin.fishcoin_money %></td>
+                            <td><%= fishcoin.fishcoin_type %></td>
+                            <td><a href="#" onclick="open_modal_update_fishcoin(event)"><i class="bi bi-pencil"></i></a></td>
+                          </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
+    </div>
+    <div class="modal fade" id="fishcoin_modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Добавление/изменение достижения</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="fishcoin_form" method="POST">
+              <input type="hidden" name="fishcoin_id" id="fishcoin_id">
+              <div class="form-group">
+                <label>Фишкион</label>
+                <input class="form-control" required id="fishcoin" type="number" name="fishcoin">
+              </div>
+              <div class="form-group">
+                <label>Цена</label>
+                <input class="form-control" required id="fishcoin_money" type="number" name="fishcoin_money">
+              </div>
+              <div class="form-group">
+                <label>Тип</label>
+                <select class="form-control" id="fishcoin_type" name="fishcoin_type">
+                  <option value="0">За оплату</option>
+                  <option value="1">За рекламу</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button type="submit" id="fishcoin_form_btn" class="btn btn-success">Добавить</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function open_modal_create_fishcoin(){
+        $("#fishcoin").val(0);
+        $("#fishcoin_money").val(0);
+        $("#fishcoin_type").val(0);
+        $("#fishcoin_form").attr('action', '/web/fishcoins/create')
+        $("#fishcoin_form_btn").html("Добавить")
+        var modal = $("#fishcoin_modal");
+        modal.modal('show');
+      }
+      function open_modal_update_fishcoin(event){
+        var tr = $($(event.target).parent().parent().parent());
+        var id = $(tr.children()[0]).text();
+        var fishcoin = $(tr.children()[1]).text();
+        var fishcoin_money = $(tr.children()[2]).text();
+        var fishcoin_type = $(tr.children()[3]).text();
+        $("#fishcoin").val(fishcoin);
+        $("#fishcoin_money").val(fishcoin_money);
+        $("#fishcoin_type").val(fishcoin_type);
+        $("#fishcoin_id").val(id);
+        $("#fishcoin_form").attr('action', '/web/fishcoins/update');
+        $("#fishcoin_form_btn").html("Изменить");
+        var modal = $("#fishcoin_modal");
+        modal.modal('show');
+      }
+    </script>
+  </main>
+</body>
+</html>

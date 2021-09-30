@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Пользователи</title>
+    <%- include('../templates/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+                <h3>Пользователи</h3>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Настроение</th>
+                  </tr>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col"><div class="input-group mb-3">
+                      <input type="text" id="search" class="form-control" placeholder="Введите имя" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <span style="cursor: pointer;" class="input-group-text" id="basic-addon2">поиск</span>
+                      </div>
+                    </div></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(user_list != false) { %>
+                    <% user_list.forEach(function(user) { %>
+                        <tr>
+                            <th scope="row"><%= user.id %></th>
+                            <td><a href="/web/users/view?id=<%= user.id %>"><%= user.name %></a></td>
+                            <td><%= user.email %></td>
+                            <td>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: <%= user.mood %>%;" aria-valuenow="<%= user.mood %>" aria-valuemin="0" aria-valuemax="100"><%= user.mood %></div>
+                              </div>
+                              </td>
+                          </tr>
+                    <% }); %>
+                  <% } %>
+                </tbody>
+            </table>
+            <nav>
+              <ul class="pagination pagination-sm">
+                <% for (i = 1; i <= pagination_len; i++) {%>
+                  <li class="page-item"><a class="page-link" href="#" onclick="onclick_pagination('<%= i %>')"><%= i %></a></li>
+                <% } %>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <script>
+      var getUrlParameter = function getUrlParameter(sParam) {
+          var sPageURL = window.location.search.substring(1),
+              sURLVariables = sPageURL.split('&'),
+              sParameterName,
+              i;
+
+          for (i = 0; i < sURLVariables.length; i++) {
+              sParameterName = sURLVariables[i].split('=');
+
+              if (sParameterName[0] === sParam) {
+                  return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              }
+          }
+          return false;
+      };
+      $(document).on('click', '#basic-addon2', function(){
+        window.location.href = "/web/users?search="+$("#search").val();
+      });
+      var search = getUrlParameter('search');
+      console.log(search);
+      if(search != false)
+        $("#search").val(search);
+      function onclick_pagination(page){
+        if(search != false)
+          window.location.href = "/web/users?search="+$("#search").val()+"&page="+page;
+        else
+          window.location.href = "/web/users?page="+page;
+      }
+    </script>
+  </main>
+</body>
+</html>

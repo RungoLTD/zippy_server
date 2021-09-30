@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Баннеры</title>
+    <%- include('../templates/head'); %>
+    <script src="/assets/mask.js" type="text/javascript"></script>
+</head>
+<body>
+  <header>
+    <%- include('../templates/navbar'); %>
+</header>
+<main>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <button class="btn btn-success" onclick="open_modal_create_banner();">Добавить</button>         
+            <% if(banners != false) { %>
+                <h3>Баннеры</h3>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">html</th>
+                    <th scope="col">Начало показа</th>
+                    <th scope="col">Конец показа</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% banners.forEach(function(banner) { %>
+                        <tr>
+                            <td scope="row"><%= banner.id %></td>
+                            <td><%= banner.name %></td>
+                            <td><iframe srcdoc="<%= banner.html_code %>"></iframe></td>
+                            <td><%= banner.show_date_start %></td>
+                            <td><%= banner.show_date_end %></td>
+                            <td></td>
+                          </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
+    </div>
+    <div class="modal fade" id="banner_modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Добавление/изменение баннера</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="banner_form" method="POST">
+              <input type="hidden" name="banner_id" id="banner_id">
+              <div class="form-group">
+                <label>Наименование</label>
+                <input class="form-control" required id="name" type="text" name="name">
+              </div>
+              <div class="form-group">
+                <label>html</label>
+                <textarea class="form-control" required id="html" name="html"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Начало показа</label>
+                <input class="form-control" required id="show_date_start" type="datetime" name="show_date_start">
+              </div>
+              <div class="form-group">
+                <label>Конец показа</label>
+                <input class="form-control" required id="show_date_end" type="datetime" name="show_date_end">
+              </div>
+              <div class="form-group">
+                <button type="submit" id="banner_form_btn" class="btn btn-success">Добавить</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function open_modal_create_banner(){
+        $("#name").val("");
+        $("#html").val("");
+        $("#show_date_start").val("");
+        $("#show_date_end").val("");
+        $("#banner_form").attr('action', '/web/banners/create')
+        $("#banner_form_btn").html("Добавить")
+        var modal = $("#banner_modal");
+        modal.modal('show');
+      }
+      function open_modal_update_banner(event){
+        var tr = $($(event.target).parent().parent().parent());
+        var id = $(tr.children()[0]).text();
+        var name_ru = $(tr.children()[1]).text();
+        var description_ru = $(tr.children()[2]).text();
+        var name_en = $(tr.children()[3]).text();
+        var description_en = $(tr.children()[4]).text();
+        var cat_mood_append = $(tr.children()[5]).text();
+        var coins_count = $(tr.children()[6]).text();
+        var color = $(tr.children()[7]).text();
+        $("#name_ru").val(name_ru);
+        $("#description_ru").val(description_ru);
+        $("#name_en").val(name_en);
+        $("#description_en").val(description_en);
+        $("#cat_mood_append").val(cat_mood_append);
+        $("#coins_count").val(coins_count);
+        $("#color").val(color);
+        $("#image_url").val("");
+        $("#banner_id").val(id);
+        $("#banner_form").attr('action', '/web/banners/update');
+        $("#banner_form_btn").html("Изменить");
+        var modal = $("#banner_modal");
+        modal.modal('show');
+      }
+      $(function () {
+        $("#show_date_start").mask("9999-99-99 99:99:99", {placeholder: "гггг-мм-дд чч:мм:сс"});
+        $("#show_date_end").mask("9999-99-99 99:99:99", {placeholder: "гггг-мм-дд чч:мм:сс"});
+      });
+    </script> 
+  </main>
+</body>
+</html>
