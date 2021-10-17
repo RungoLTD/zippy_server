@@ -31,14 +31,22 @@
                       </tr>
                       <tr>
                         <th scope="row">Аватар</th>
-                        <td><%= user_data.avatar %></td>
+                        <td>
+                          <% if(user_data.avatar != "") { %> 
+                            <img width="128" height="128" src="<%= user_data.avatar %>">
+                          <% } %>
+                        </td>
                       </tr>
                       <tr>
                         <th scope="row">Настроение</th>
                         <td>
+                          <% if(user_data.mood != 0) { %> 
                           <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: <%= user_data.mood %>%;" aria-valuenow="<%= user_data.mood %>" aria-valuemin="0" aria-valuemax="100"><%= user_data.mood %></div>
                           </div>
+                          <% } else { %>
+                            <%= user_data.mood %>
+                          <% } %>
                         </td>
                       </tr>
                       <tr>

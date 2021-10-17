@@ -381,8 +381,8 @@ io.attach(server, {
 
 io.on('connection', Chat);
 
-server.listen(9000, '127.0.0.1', () => {
-    console.log(`Server started on 9000 port`);
+server.listen(3000, '127.0.0.1', () => {
+    console.log(`Server started on 3000 port`);
 });
 
 module.exports.io = io;
