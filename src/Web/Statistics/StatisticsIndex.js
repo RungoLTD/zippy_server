@@ -5,7 +5,22 @@ module.exports = async function (req, res) {
         if(req.cookies.username == undefined){
             return res.redirect("/web/signin");
         } else {
-            let statistics = await db.mysqlQueryArray("SELECT * FROM statistics ORDER BY `id` DESC LIMIT 25");
+            var page = req.query.page;
+            let statistic_count = 0;
+            const limit = 25;
+
+            var query = "";
+            if(page != undefined){
+                var offset = (page - 1) * limit;
+                query = "SELECT * FROM statistics ORDER BY `id` DESC LIMIT "+offset+","+limit;
+            } else {
+                query = "SELECT * FROM statistics ORDER BY `id` DESC LIMIT "+limit;
+                page = 1;
+            }
+            let statistics = await db.mysqlQueryArray(query);
+            let statistic_count_query = await db.mysqlQuery("SELECT COUNT(*) count FROM statistics");
+            statistic_count = statistic_count_query.count;
+
             if(statistics != false){
                 for (const statistic of statistics){
                     let user = await db.mysqlQuery("SELECT name FROM users WHERE id = ?", [statistic.user_id]);
@@ -14,10 +29,12 @@ module.exports = async function (req, res) {
                     statistic.meters = statistic.meters * 0.001;
                     statistic.time = toHHMMSS(statistic.time);
                 }
-            }
-            // console.log(statistics); 
+            } 
+            let pagination_len = Math.floor(statistic_count/limit) + 1;
             return res.render('statistics/index', {
                 statistics: statistics,
+                pagination_len: pagination_len,
+                page: page,
             });
         }
     } catch (error) {

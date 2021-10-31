@@ -37,6 +37,34 @@
                   
                 </tbody>
             </table>
+            <nav>
+              <ul class="pagination pagination-sm">
+                <% var addedNumber = parseInt(page) + 5;
+                  var disable_class = "";
+                  if(page == 1){
+                    disable_class = "disabled";
+                  }
+                %>
+                <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/statistics?page=<%= page-1 %>">«</a></li>
+                <% for (i = 1; i <= pagination_len; i++) {%>
+                  <% if((i >= (page - 5)) && (i <= (addedNumber))) {
+                    var active_class = "";
+                    if(page == i){
+                      active_class = "active";
+                    }
+                    %>
+                      <li class="page-item <%= active_class %>"><a class="page-link" href="/web/statistics?page=<%= i %>"><%= i %></a></li>
+                  <% } %>                      
+                <% } %>
+                <% 
+                  var disable_class = "";
+                  if(page == pagination_len){
+                    disable_class = "disabled";
+                  }
+                %>
+                <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/statistics?page=<%= parseInt(page)+1 %>">»</a></li>
+              </ul>
+            </nav>
             <% } %>
         </div>
     </div>

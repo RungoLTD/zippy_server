@@ -12,29 +12,34 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <% if(user_trains != false) { %>
-                <h3>Тренировки</h3>
+            <% if(transactions != false) { %>
+                <h3>Транзакции</h3>
                 <table class="table">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Пользователь</th>
-                        <th scope="col">Начало</th>
-                        <th scope="col">Конец</th>
+                        <th scope="col">Операции</th>
+                        <th scope="col">Тип</th>
+                        <th scope="col">Деталь</th>
+                        <th scope="col">Сумма</th>
+                        <th scope="col">Дата</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody>
-                        <% user_trains.forEach(function(user_train) { %>
+                        <% transactions.forEach(function(transaction) { %>
                             <tr>
-                                <td scope="row"><%= user_train.id %></td>
-                                <td><a href="/web/users/view?id=<%= user_train.user_id %>"><%= user_train.user_name %></a></td>
-                                <td><%= user_train.start_day %></td>
-                                <td><%= user_train.end_day %></td>
+                                <td scope="row"><%= transaction.id %></td>
+                                <td><a href="/web/users/view?id=<%= transaction.user_id %>"><% if(transaction.user_name == '') {%> --Без имени-- <% } else { %> <%= transaction.user_name %> <% } %></a></td>
+                                <td><%= transaction.operation %></td>
+                                <td><%= transaction.type %></td>
+                                <td><%= transaction.detail_id %></td>
+                                <td><%= transaction.amount %></td>
+                                <td><%= transaction.created %></td>
                                 <td></td>
                               </tr>
                         <% }); %>
-                      
                     </tbody>
                 </table>
                 <nav>
@@ -45,7 +50,7 @@
                         disable_class = "disabled";
                       }
                     %>
-                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/trains?page=<%= page-1 %>">«</a></li>
+                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/transactions?page=<%= page-1 %>">«</a></li>
                     <% for (i = 1; i <= pagination_len; i++) {%>
                       <% if((i >= (page - 5)) && (i <= (addedNumber))) {
                         var active_class = "";
@@ -53,7 +58,7 @@
                           active_class = "active";
                         }
                         %>
-                          <li class="page-item <%= active_class %>"><a class="page-link" href="/web/trains?page=<%= i %>"><%= i %></a></li>
+                          <li class="page-item <%= active_class %>"><a class="page-link" href="/web/transactions?page=<%= i %>"><%= i %></a></li>
                       <% } %>                      
                     <% } %>
                     <% 
@@ -62,7 +67,7 @@
                         disable_class = "disabled";
                       }
                     %>
-                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/trains?page=<%= parseInt(page)+1 %>">»</a></li>
+                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/transactions?page=<%= parseInt(page)+1 %>">»</a></li>
                   </ul>
                 </nav>
             <% } %>

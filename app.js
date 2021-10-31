@@ -37,6 +37,7 @@ const MoodService = require('./src/MoodService');
 const Auth = require('./src/Auth');
 const CreateAccount = require('./src/CreateAccount');
 const RestoreAccount = require('./src/RestoreAccount');
+const SendFcmToken = require('./src/SendFcmToken');
 const FetchProfile = require('./src/Profile/FetchProfile');
 const UpdateTimezone = require('./src/Profile/UpdateTimezone');
 const UpdateProfile = require('./src/Profile/UpdateProfile');
@@ -80,6 +81,7 @@ const WebSignupPost = require('./src/Web/Signup/SignupPost');
 const WebUsers = require('./src/Web/Users/UsersIndex');
 const WebUsersView = require('./src/Web/Users/UsersView');
 const WebUsersUpdate = require('./src/Web/Users/UsersUpdate');
+const WebUsersAddFishcoin = require('./src/Web/Users/UsersAddFishcoin');
 const WebStatistics = require('./src/Web/Statistics/StatisticsIndex');
 const WebStatisticsView = require('./src/Web/Statistics/StatisticsView');
 const WebSkins = require('./src/Web/Skins/SkinsIndex');
@@ -94,7 +96,7 @@ const WebFishcoinsUpdate = require('./src/Web/Fishcoins/FishcoinsUpdate');
 const WebBanners = require('./src/Web/Banners/BannersIndex');
 const WebBannersCreate = require('./src/Web/Banners/BannersCreate');
 const WebBannersUpdate = require('./src/Web/Banners/BannersUpdate');
-
+const WebTransactions = require('./src/Web/Transactions/TransactionsIndex');
 
 
 
@@ -200,6 +202,8 @@ app.get('/web/users/update', WebUsersUpdate);
 
 app.post('/web/users/update', WebUsersUpdate);
 
+app.get('/web/users/add-fishcoin', WebUsersAddFishcoin);
+
 app.get('/web/statistics', WebStatistics);
 
 app.get('/web/statistics/view', WebStatisticsView);
@@ -227,6 +231,8 @@ app.get('/web/banners', WebBanners);
 app.post('/web/banners/create', WebBannersCreate);
 
 app.post('/web/banners/update', WebBannersUpdate);
+
+app.get('/web/transactions', WebTransactions)
 
 
 app.get('/web/exit', function (req, res) {
@@ -326,6 +332,7 @@ app.get('/public/skins/:file', function (req, res) {
 app.post('/auth', Auth);
 app.post('/register', CreateAccount);
 app.post('/restore', RestoreAccount);
+app.post('/sendFcmToken', SendFcmToken);
 
 // Профиль
 app.post('/profile/fetch', FetchProfile);

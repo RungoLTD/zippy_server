@@ -69,3 +69,26 @@ module.exports.notifyOldUsers = () => {
         }
     });
 };
+
+function sendNotification(userId, data){
+    // EXAMPLE DATA
+    // const data = {
+    //     body: "BODY",
+    //     title: "TITLE",
+    //     key_1: "keyId1"
+    // }
+    var headers = {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'key=' + process.env.FIREBASE_SECRET_KEY,
+    };
+    const body_data = {
+        to: "",
+        data: data
+    };
+    request.post({
+        uri: 'https://fcm.googleapis.com/fcm/send',
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body_data),
+    });
+}

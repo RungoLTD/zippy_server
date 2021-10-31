@@ -6,9 +6,22 @@ module.exports = async function (req, res) {
         if(req.cookies.username == undefined){
             return res.redirect("/web/signin");
         } else {
-            let user_trains = await db.mysqlQueryArray("SELECT * FROM user_trains ORDER BY `id` DESC LIMIT 25");
-            // let friends = await db.mysqlQueryArray("SELECT users.id, users.name, users.avatar, users.mood FROM friends LEFT JOIN users ON (friends.user_id = users.id OR friends.friend_id = users.id) WHERE (friends.friend_id = ? OR friends.user_id = ?) AND friends.approved = '1' AND users.id != ? GROUP BY users.id", [user.id, user.id, user.id]) || [];
-            // let notApprovedFriends = await db.mysqlQueryArray("SELECT users.id, users.name, users.avatar, users.mood FROM friends LEFT JOIN users ON friends.user_id = users.id WHERE friends.friend_id = ? AND friends.approved = 0", [user.id]) || [];
+            var page = req.query.page;
+            let user_train_count = 0;
+            const limit = 25;
+
+            var query = "";
+            if(page != undefined){
+                var offset = (page - 1) * limit;
+                query = "SELECT * FROM user_trains ORDER BY `id` DESC LIMIT "+offset+","+limit;
+            } else {
+                query = "SELECT * FROM user_trains ORDER BY `id` DESC LIMIT "+limit;
+                page = 1;
+            }
+            let user_trains = await db.mysqlQueryArray(query);
+            let user_train_count_query = await db.mysqlQuery("SELECT COUNT(*) count FROM user_trains");
+            user_train_count = user_train_count_query.count;
+
             if(user_trains != false){
                 for (const user_train of user_trains){ 
                     let user = await db.mysqlQuery("SELECT name FROM users WHERE id = ?", [user_train.user_id]); 
@@ -17,8 +30,11 @@ module.exports = async function (req, res) {
                     user_train.user_name = user == false ? user_train.user_id : user.name;
                 }
             }
+            let pagination_len = Math.floor(user_train_count/limit) + 1;
             return res.render('trains/index', {
                 user_trains: user_trains,
+                pagination_len: pagination_len,
+                page: page,
             });
         }
     } catch (error) {
