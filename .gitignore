@@ -54,3 +54,9 @@ zippy_run.ppk
 zippy_server
 zippy_server.pub
 old_zippyrun.ppk
+
+public/uploads/*
+
+/.env.staging
+/.env.testing
+/.env.production
