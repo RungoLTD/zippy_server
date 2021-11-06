@@ -10,6 +10,7 @@ module.exports = async function (req, res) {
     // TODO : Validate transacton @transactionId
 
     var coinsCount = 0;
+    var type = "IAP";
 
     switch (paymentIdentifier) {
         case "com.myrungo.ios.app.80.coins":
@@ -21,10 +22,14 @@ module.exports = async function (req, res) {
         case "com.myrungo.ios.app.1200.coins":
             coinsCount = 1200;
             break;
+        case "ads":
+            coinsCount = 10;
+            type = "ads"
+            break;
         default:
             return res.status(200).json({ success : false, error : "Неправильный идентификатор платежа" })
     }
-    await db.mysqlInsert("INSERT INTO transactions SET ?", { user_id: user.id, operation: "+", type: "IAP", detail_id: -1, amount : coinsCount })
+    await db.mysqlInsert("INSERT INTO transactions SET ?", { user_id: user.id, operation: "+", type: type, detail_id: -1, amount : coinsCount })
 
     AchievmentService(user.id, 20);
 
