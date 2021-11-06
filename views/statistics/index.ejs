@@ -29,7 +29,7 @@
                     <% statistics.forEach(function(statistic) { %>
                         <tr>
                             <td scope="row"><%= statistic.id %></td>
-                            <td><a href="/web/users/view?id=<%= statistic.user_id %>"><%= statistic.user_name %></a></td>
+                            <td><a href="/web/users/view?id=<%= statistic.user_id %>"><% if(statistic.user_name == '') {%> --Без имени-- <% } else { %> <%= statistic.user_name %> <% } %></a></td>
                             <td><%= statistic.meters %> км.</td>
                             <td><%= statistic.time %></td>
                             <td><%= statistic.created %></td>
