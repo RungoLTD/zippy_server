@@ -11,22 +11,59 @@
 <main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
           <h1>Главная страница</h1>
-          <canvas id="myChart" width="400" height="200"></canvas>
-
+          <div class="row">
+            <div class="col-md-6"><canvas id="install_clients" ></canvas></div>
+            <div class="col-md-6"><canvas id="active_clients" ></canvas></div>
+          </div>
         </div>
     </div>
     <script>
-      const ctx = document.getElementById('myChart').getContext('2d');
-      const myChart = new Chart(ctx, {
-          type: 'bar',
+      const install_clients_ctx = document.getElementById('install_clients').getContext('2d');
+      const active_clients_ctx = document.getElementById('active_clients').getContext('2d');
+      
+      var arr_dates_string = '<%= arr_dates %>';
+      console.log(arr_dates_string)
+      var arr_dates = arr_dates_string.replace("[","").replace("]","").split(',');
+
+      var arr_install_clients_week_string = '<%= arr_install_clients_week %>';
+      var arr_install_clients_week = arr_install_clients_week_string.replace("[","").replace("]","").split(',');
+      
+      var arr_active_clients_week_string = '<%= arr_active_clients_week %>';
+      var arr_active_clients_week = arr_active_clients_week_string.replace("[","").replace("]","").split(',');
+      
+      const myChart = new Chart(install_clients_ctx, {
+          type: 'line',
           data: {
-              labels: '<%= arr_dates %>',
+              labels: arr_dates,
               datasets: [{
-                  label: '# of Votes',
-                  data: "<%= arr_clients_week %>",
+                  label: 'Количество зарегистрированных в день',
+                  data: arr_install_clients_week,
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      const myChart1 = new Chart(active_clients_ctx, {
+          type: 'line',
+          data: {
+              labels: arr_dates,
+              datasets: [{
+                  label: 'Количество активных пользователей в день',
+                  data: arr_active_clients_week,
+                  backgroundColor: 'rgb(0,128,255)',
+                  borderColor: 'rgb(0,128,255)',
                   borderWidth: 1
               }]
           },

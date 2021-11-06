@@ -25,12 +25,10 @@ function getPW(length) {
 
 module.exports = async function (req, res) {
     let email = req.body.email;
-    let os_code = req.body.os_code;
-    let version_build = req.body.version_build;
-    let version_app = req.body.version_app;
-    os_code = os_code == undefined ? 1 : os_code;
-    version_build = version_build == undefined ? 0 : version_build;
-    version_app = version_app == undefined ? 0 : version_app;
+    let os_code = req.body.os_code == undefined ? 1 : req.body.os_code;
+    let version_build = req.body.version_build == undefined ? 0 : req.body.version_build;
+    let version_app = req.body.version_app == undefined ? 0 : req.body.version_app;
+    let fcm_token = req.body.fcmToken == undefined ? null : req.body.fcmToken;
 
     try {
         let user = await db.mysqlQuery('SELECT * FROM users WHERE auth_type = ? AND email = ?', ['email', email]);
@@ -55,6 +53,7 @@ module.exports = async function (req, res) {
                 os_code: os_code,
                 version_build: version_build,
                 version_app: version_app,
+                fcm_token: fcm_token,
                 avatar: defaultPhotoImage,
             });
             await db.mysqlInsert('INSERT INTO user_skins SET ?', { user_id: newUserId, skin_id: 'default' });

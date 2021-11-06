@@ -1,4 +1,5 @@
 require('custom-env').env(true);
+// require('custom-env').env('production');
 
 process.env.NODE_ENV = 'production'; //process.env.APP_ENV;
 
@@ -117,9 +118,9 @@ var server = require('http').createServer(app);
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    user: 'root',
-    password: 'Cnhds;lhj1',
-    database: 'zippy',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     charset: 'utf8mb4',
 });
 
@@ -388,8 +389,8 @@ io.attach(server, {
 
 io.on('connection', Chat);
 
-server.listen(3000, '127.0.0.1', () => {
-    console.log(`Server started on 3000 port`);
+server.listen(process.env.HTTP_PORT, '127.0.0.1', () => {
+    console.log('Server started on '+process.env.HTTP_PORT+' port');
 });
 
 module.exports.io = io;

@@ -75,6 +75,7 @@ function reqFacebook(data) {
 
 module.exports = async function auth(req, res) {
     try {
+        let fcm_token = req.body.fcmToken == undefined ? null : req.body.fcmToken;
         switch (req.body.authType) {
             case 'google':
                 let googleResult = await reqGoogle({ accessToken: req.body.accessToken });
@@ -89,6 +90,7 @@ module.exports = async function auth(req, res) {
                         let newUserId = await db.mysqlInsert('INSERT INTO users SET ?', {
                             social_user_id: googleResult.user_id,
                             access_token: token,
+                            fcm_token: fcm_token,
                             auth_type: 'google',
                             avatar: defaultPhotoImage,
                         });
@@ -96,7 +98,8 @@ module.exports = async function auth(req, res) {
                         await db.mysqlInsert('INSERT INTO user_skins SET ?', { user_id: newUserId, skin_id: 'default' });
                         AchievmentService(newUserId, 22);
                     } else {
-                        await db.mysqlUpdate('UPDATE users SET access_token = ? WHERE auth_type = ? AND social_user_id = ?', [token, result.auth_type, result.social_user_id]);
+                        await db.mysqlUpdate('UPDATE users SET access_token = ?, fcm_token = ? WHERE auth_type = ? AND social_user_id = ?', 
+                        [token, fcm_token, result.auth_type, result.social_user_id]);
                     }
 
                     return res
@@ -120,14 +123,16 @@ module.exports = async function auth(req, res) {
                             name: facebookResult.name,
                             avatar: defaultPhotoImage,
                             access_token: token,
+                            fcm_token: fcm_token,
                             auth_type: 'facebook',
                         });
                         // Set default skin
                         await db.mysqlInsert('INSERT INTO user_skins SET ?', { user_id: newUserId, skin_id: 'default' });
                         AchievmentService(newUserId, 22);
                     } else {
-                        let updatedUserId = await db.mysqlUpdate('UPDATE users SET access_token = ? WHERE auth_type = ? AND social_user_id = ?', [
+                        await db.mysqlUpdate('UPDATE users SET access_token = ?, fcm_token = ? WHERE auth_type = ? AND social_user_id = ?', [
                             token,
+                            fcm_token,
                             result.auth_type,
                             result.social_user_id,
                         ]);
@@ -146,6 +151,10 @@ module.exports = async function auth(req, res) {
                 let user = await db.mysqlQuery("SELECT * FROM users WHERE auth_type = 'email' AND email = ? AND social_user_id = ?", [req.body.email, pw]);
 
                 if (user) {
+                    await db.mysqlUpdate('UPDATE users SET fcm_token = ? WHERE id = ? ', [
+                        fcm_token,
+                        user.id,
+                    ]);
                     return res
                         .status(200)
                         .json({ success: true, code: 1, data: { access_token: user.access_token, user_data: user } })
@@ -170,6 +179,7 @@ module.exports = async function auth(req, res) {
                     let newUserId = await db.mysqlInsert('INSERT INTO users SET ?', {
                         social_user_id: appleResult.sub,
                         access_token: token,
+                        fcm_token: fcm_token,
                         auth_type: 'appleId',
                         avatar: defaultPhotoImage,
                     });
@@ -177,7 +187,8 @@ module.exports = async function auth(req, res) {
                     await db.mysqlInsert('INSERT INTO user_skins SET ?', { user_id: newUserId, skin_id: 'default' });
                     AchievmentService(newUserId, 22);
                 } else {
-                    await db.mysqlUpdate('UPDATE users SET access_token = ? WHERE id = ?', [token, appleUser.id]);
+                    await db.mysqlUpdate('UPDATE users SET access_token = ?, fcm_token = ? WHERE id = ?', 
+                    [token, fcm_token, appleUser.id]);
                 }
                 return res
                     .status(200)

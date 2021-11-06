@@ -44,6 +44,9 @@ module.exports = async function addStatistics(req, res) {
         let kms = parseInt(meters / 1000);
         if (kms >= 2){
             let newMood = user.mood + 5;
+            if (newMood > 100){
+                newMood = 100;
+            }
             await db.mysqlUpdate("UPDATE users SET mood = ? WHERE id = ?", [newMood, user.id]);
         }
     }

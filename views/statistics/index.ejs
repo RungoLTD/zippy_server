@@ -21,6 +21,7 @@
                     <th scope="col">Пользователь</th>
                     <th scope="col">Дистанция</th>
                     <th scope="col">Время</th>
+                    <th scope="col">Дата</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -31,6 +32,7 @@
                             <td><a href="/web/users/view?id=<%= statistic.user_id %>"><%= statistic.user_name %></a></td>
                             <td><%= statistic.meters %> км.</td>
                             <td><%= statistic.time %></td>
+                            <td><%= statistic.created %></td>
                             <td><a href="/web/statistics/view?id=<%= statistic.id %>"><i class="bi bi-eye"></i></a></td>
                           </tr>
                     <% }); %>

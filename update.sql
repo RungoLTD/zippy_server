@@ -17,4 +17,4 @@ CREATE TABLE `banners` (
 
 ALTER TABLE statistics ADD routes text NULL;
 
-ALTER TABLE users ADD fcm text NULL;
+ALTER TABLE users ADD fcm_token text NULL;

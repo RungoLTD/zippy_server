@@ -1,4 +1,5 @@
 const db = require("../../db");
+const moment = require("moment");
 
 module.exports = async function (req, res) {
     try {
@@ -28,6 +29,7 @@ module.exports = async function (req, res) {
                     statistic.user_name = user == false ? statistic.user_id : user.name;
                     statistic.meters = statistic.meters * 0.001;
                     statistic.time = toHHMMSS(statistic.time);
+                    statistic.created = moment(statistic.created).format('DD.MM.YYYY HH:mm');
                 }
             } 
             let pagination_len = Math.floor(statistic_count/limit) + 1;
@@ -39,7 +41,7 @@ module.exports = async function (req, res) {
         }
     } catch (error) {
         console.log(error)
-        return res.status(200).json({ success : false, error : error || "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, error : error })
     }
 }
 
