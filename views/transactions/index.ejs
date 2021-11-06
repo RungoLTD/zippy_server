@@ -26,6 +26,26 @@
                         <th scope="col">Дата</th>
                         <th scope="col"></th>
                       </tr>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">
+                          <select id="type" class="form-control">
+                            <option value="">Выберите тип</option>
+                            <option value="IAP">Покупка фишкионов</option>
+                            <option value="skin">Покупка скина</option>
+                            <option value="achievement">Достижение</option>
+                            <option value="challenge">Челленджи</option>
+                            <option value="week_challenge">Недельные челленджи</option>
+                            <option value="web_add">Добавление фишкоина из сайта</option>
+                          </select>
+                        </th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
                     </thead>
                     <tbody>
                         <% transactions.forEach(function(transaction) { %>
@@ -50,7 +70,7 @@
                         disable_class = "disabled";
                       }
                     %>
-                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/transactions?page=<%= page-1 %>">«</a></li>
+                    <li class="page-item <%= disable_class %>"><a class="page-link" href="#" onclick="onclick_pagination('<%= page-1 %>')">«</a></li>
                     <% for (i = 1; i <= pagination_len; i++) {%>
                       <% if((i >= (page - 5)) && (i <= (addedNumber))) {
                         var active_class = "";
@@ -58,7 +78,7 @@
                           active_class = "active";
                         }
                         %>
-                          <li class="page-item <%= active_class %>"><a class="page-link" href="/web/transactions?page=<%= i %>"><%= i %></a></li>
+                          <li class="page-item <%= active_class %>"><a class="page-link" href="#" onclick="onclick_pagination('<%= i %>')"><%= i %></a></li>
                       <% } %>                      
                     <% } %>
                     <% 
@@ -67,11 +87,41 @@
                         disable_class = "disabled";
                       }
                     %>
-                    <li class="page-item <%= disable_class %>"><a class="page-link" href="/web/transactions?page=<%= parseInt(page)+1 %>">»</a></li>
+                    <li class="page-item <%= disable_class %>"><a class="page-link" onclick="onclick_pagination('<%= parseInt(page)+1 %>')">»</a></li>
                   </ul>
                 </nav>
             <% } %>
         </div>
+        <script>
+          var getUrlParameter = function getUrlParameter(sParam) {
+              var sPageURL = window.location.search.substring(1),
+                  sURLVariables = sPageURL.split('&'),
+                  sParameterName,
+                  i;
+    
+              for (i = 0; i < sURLVariables.length; i++) {
+                  sParameterName = sURLVariables[i].split('=');
+    
+                  if (sParameterName[0] === sParam) {
+                      return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                  }
+              }
+              return false;
+          };
+          $(document).on('change', '#type', function(){
+            window.location.href = "/web/transactions?type="+$(this).val();
+          });
+          var search = getUrlParameter('type');
+          console.log(search);
+          if(search != false)
+            $("#type").val(search);
+          function onclick_pagination(page){
+            if(search != false)
+              window.location.href = "/web/transactions?type="+$("#type").val()+"&page="+page;
+            else
+              window.location.href = "/web/transactions?page="+page;
+          }
+        </script>
     </div>
   </main>
 </body>

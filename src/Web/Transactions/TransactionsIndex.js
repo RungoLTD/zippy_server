@@ -6,22 +6,37 @@ module.exports = async function (req, res) {
         if(req.cookies.username == undefined){
             return res.redirect("/web/signin");
         } else {
+            var type = req.query.type;
             var page = req.query.page;
             let transaction_count = 0;
+            let transactions = null;
             const limit = 25;
 
-            var query = "";
-            if(page != undefined){
-                var offset = (page - 1) * limit;
-                query = "SELECT * FROM transactions ORDER BY `id` DESC LIMIT "+offset+","+limit;
+            if(type != undefined && type != ""){
+                var query = "";
+                if(page != undefined){
+                    var offset = (page - 1) * limit;
+                    query = "SELECT * FROM transactions WHERE `type` = ? ORDER BY `id` DESC LIMIT "+offset+","+limit;
+                } else {
+                    query = "SELECT * FROM transactions WHERE `type` = ? ORDER BY `id` DESC LIMIT "+limit;
+                    page = 1;
+                }
+                transactions = await db.mysqlQueryArray(query,[type]);
+                let transaction_count_query = await db.mysqlQuery("SELECT COUNT(*) count FROM transactions WHERE `type` = ?",[type]);
+                transaction_count = transaction_count_query.count
             } else {
-                query = "SELECT * FROM transactions ORDER BY `id` DESC LIMIT "+limit;
-                page = 1;
+                var query = "";
+                if(page != undefined){
+                    var offset = (page - 1) * limit;
+                    query = "SELECT * FROM transactions ORDER BY `id` DESC LIMIT "+offset+","+limit;
+                } else {
+                    query = "SELECT * FROM transactions ORDER BY `id` DESC LIMIT "+limit;
+                    page = 1;
+                }
+                transactions = await db.mysqlQueryArray(query);
+                let transaction_count_query = await db.mysqlQuery("SELECT COUNT(*) count FROM transactions");
+                transaction_count = transaction_count_query.count;
             }
-            let transactions = await db.mysqlQueryArray(query);
-            let transaction_count_query = await db.mysqlQuery("SELECT COUNT(*) count FROM transactions");
-            transaction_count = transaction_count_query.count;
-
             // let transactions = await db.mysqlQueryArray("SELECT * FROM transactions ORDER BY `id` DESC LIMIT 25");
             
             if(transactions != false){
