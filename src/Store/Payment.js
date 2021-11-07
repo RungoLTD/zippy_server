@@ -32,6 +32,7 @@ module.exports = async function (req, res) {
     await db.mysqlInsert("INSERT INTO transactions SET ?", { user_id: user.id, operation: "+", type: type, detail_id: -1, amount : coinsCount })
 
     AchievmentService(user.id, 20);
-
-    return res.status(200).json({ success : true })
+    let transactions = await db.mysqlQuery('SELECT SUM(amount) FROM transactions WHERE user_id = ?', [user.id]);
+        
+    return res.status(200).json({ success : true, data: { fishcoins: transactions['SUM(amount)'] } })
 }
