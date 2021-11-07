@@ -102,6 +102,7 @@ module.exports = async function (req, res) {
 
         return res.status(200).json({
             success: skins != null,
+            code: 0,
             data: {
                 skins: skins,
                 user: user,
