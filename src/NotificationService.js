@@ -39,13 +39,24 @@ function sendToOneSignal(userId, contents) {
     });
 }
 
-module.exports.sendPush = (userId, message = []) => {
+// module.exports.sendPush = (userId, message = []) => {
+//     return new Promise(async (resolve, reject) => {
+//         let oneSignalResult = await sendToOneSignal(userId, message);
+//         if (oneSignalResult.error) {
+//             reject(oneSignalResult.error);
+//         } else {
+//             resolve(oneSignalResult.length ? oneSignalResult : false);
+//         }
+//     });
+// };
+
+module.exports.sendPush = (fcmToken, message = []) => {
     return new Promise(async (resolve, reject) => {
-        let oneSignalResult = await sendToOneSignal(userId, message);
-        if (oneSignalResult.error) {
-            reject(oneSignalResult.error);
+        let fcmTokenResult = await sendNotification(fcmToken, message);
+        if (fcmTokenResult.error) {
+            reject(fcmTokenResult.error);
         } else {
-            resolve(oneSignalResult.length ? oneSignalResult : false);
+            resolve(fcmTokenResult.length ? fcmTokenResult : false);
         }
     });
 };
@@ -70,25 +81,31 @@ module.exports.notifyOldUsers = () => {
     });
 };
 
-function sendNotification(userId, data){
-    // EXAMPLE DATA
-    // const data = {
-    //     body: "BODY",
-    //     title: "TITLE",
-    //     key_1: "keyId1"
-    // }
-    var headers = {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'key=' + process.env.FIREBASE_SECRET_KEY,
-    };
-    const body_data = {
-        to: "",
-        data: data
-    };
-    request.post({
-        uri: 'https://fcm.googleapis.com/fcm/send',
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(body_data),
-    });
+function sendNotification(fcmToken, data){
+    return new Promise((resolve, reject) => {
+        var headers = {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'key=' + process.env.FIREBASE_SECRET_KEY,
+        };
+        const body_data = {
+            to: fcmToken,
+            notification : data
+        };
+        request.post({
+            uri: 'https://fcm.googleapis.com/fcm/send',
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body_data),
+        },
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                resolve(response.statusCode)
+                // console.log(response.statusCode);
+                // console.log(body)
+            } else {
+                reject(response.statusCode)
+            }
+        });
+        // console.log(a);
+    })
 }

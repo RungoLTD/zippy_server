@@ -21,7 +21,15 @@ module.exports = async (user_id, achievement_id) => {
         });
     }
 
-    await db.mysqlUpdate("UPDATE users SET mood = mood + ? WHERE id = ?", [achievement.cat_mood_append, user_id]);
+    let user = await db.mysqlQuery('SELECT mood FROM users WHERE id = ?', [user_id]);
+
+    var newMood = user.mood + achievement.cat_mood_append;
+    if (newMood > 100){
+        newMood = 100;
+    }
+
+    await db.mysqlUpdate("UPDATE users SET mood = ? WHERE id = ?", [newMood, user_id]);
+
     await db.mysqlInsert("INSERT INTO transactions SET ?", {
         user_id : user_id,
         operation : '+',

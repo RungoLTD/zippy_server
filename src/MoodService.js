@@ -32,8 +32,8 @@ module.exports.notifySetMood = async function() {
         }
 
         let textMessage = {
-            ru: message,
-            en: message,
+            "title": "Zippy",
+            "body" : message,
         };
 
         await db.mysqlInsert('INSERT INTO chat_log SET ?', {
@@ -44,7 +44,9 @@ module.exports.notifySetMood = async function() {
             readed: false,
         });
 
-        NotificationService.sendPush(user.id, textMessage);
+        if (user.fcm_token != null && user.fcm_token != "") {
+            NotificationService.sendPush(user.fcm_token, textMessage);
+        }
     }
 };
 

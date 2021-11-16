@@ -21,11 +21,18 @@ module.exports = async function (req, res) {
             approved : false
         });
         
+        // let textMessage = {
+        //     "ru" : user.name + " хочет добавить Вас в друзья",
+        //     "en" : user.name + " want add you to friends"
+        // };
+
         let textMessage = {
-            "ru" : user.name + " хочет добавить Вас в друзья",
-            "en" : user.name + " want add you to friends"
+            "title": "Zippy",
+            "body" : user.name + " хочет добавить Вас в друзья",
         };
-        NotificationService.sendPush(friend.id, textMessage);
+        if (friend.fcm_token != null && friend.fcm_token != "") {
+            NotificationService.sendPush(friend.fcm_token, textMessage);
+        }
         
         return res.status(200).json({ success : true })
     } catch (error) {

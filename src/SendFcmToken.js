@@ -2,8 +2,6 @@ const db = require("./db");
 
 
 module.exports = async function (req, res) {
-    let email = req.body.email;
-    
     try {
         if (req.body.fcmToken != null){
             await db.mysqlUpdate("UPDATE users SET fcm_token = ? WHERE access_token = ?", [req.body.fcmToken, req.body.accessToken]);
