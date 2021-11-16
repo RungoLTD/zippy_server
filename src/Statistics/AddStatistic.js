@@ -11,6 +11,10 @@ module.exports = async function addStatistics(req, res) {
     let avgPace = req.body.avgPace;
     let paces = req.body.paces;
     
+    if (meters == 0 && maxSpeed == 0 && avgSpeed == 0 && avgPace == 0){
+        return res.status(200).json({ success : false, error : "Вы не пробежали" })
+    }
+
     let routes = req.body.routes;
 
     let user = await db.mysqlQuery("SELECT * FROM users WHERE access_token = ?", [req.body.accessToken]);
@@ -40,7 +44,7 @@ module.exports = async function addStatistics(req, res) {
                 console.log(error);
             }
         }
-    }else{
+    } else {
         let kms = parseInt(meters / 1000);
         if (kms >= 2){
             let newMood = user.mood + 5;
