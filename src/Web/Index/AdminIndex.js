@@ -24,11 +24,34 @@ module.exports = async function (req, res) {
                 
                 arr_install_clients_week.push(users_installs.count)
                 arr_active_clients_week.push(users_active.count)
-            }  
+            }
+            let current_month = moment().format('M')
+            let current_year = moment().format('Y')
+
+            var arr_month_in_year = [];
+            var arr_km_in_month = [];
+            for (var i = 1; i <= current_month; i++) {
+                let created1 = current_year+"-"+String("0" + i).slice(-2)+"-01" + " 00:00:00";
+                let asd = i + 1
+                var created2 = ""
+                if(asd > 12){
+                    created2 = moment().subtract(1, "years").format('Y')+"-01-01" + " 00:00:00";
+                } else {
+                    created2 = current_year+"-"+String("0" + asd).slice(-2)+"-01" + " 00:00:00";
+                }
+
+                let statistics_month = await db.mysqlQuery("SELECT SUM(meters) as meters FROM statistics WHERE created >= ? AND created < ?", [ created1, created2]);
+                
+                arr_km_in_month.push(parseInt(statistics_month.meters) * 0.001)
+                arr_month_in_year.push(moment(current_year+"-"+i+"-01").format('MMM'))
+            }
+
             return res.render('index/index', {
                 arr_dates: arr_dates1,
                 arr_install_clients_week: arr_install_clients_week,
-                arr_active_clients_week: arr_active_clients_week
+                arr_active_clients_week: arr_active_clients_week,
+                arr_month_in_year: arr_month_in_year,
+                arr_km_in_month: arr_km_in_month
             });
         }
     } catch (error) {

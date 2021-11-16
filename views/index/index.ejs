@@ -18,11 +18,15 @@
             <div class="col-md-6"><canvas id="install_clients" ></canvas></div>
             <div class="col-md-6"><canvas id="active_clients" ></canvas></div>
           </div>
+          <div class="row">
+            <div class="col-md-6"><canvas id="statistics_month" ></canvas></div>
+          </div>
         </div>
     </div>
     <script>
       const install_clients_ctx = document.getElementById('install_clients').getContext('2d');
       const active_clients_ctx = document.getElementById('active_clients').getContext('2d');
+      const statistics_month_ctx = document.getElementById('statistics_month').getContext('2d');
       
       var arr_dates_string = '<%= arr_dates %>';
       console.log(arr_dates_string)
@@ -31,8 +35,6 @@
       var arr_install_clients_week_string = '<%= arr_install_clients_week %>';
       var arr_install_clients_week = arr_install_clients_week_string.replace("[","").replace("]","").split(',');
       
-      var arr_active_clients_week_string = '<%= arr_active_clients_week %>';
-      var arr_active_clients_week = arr_active_clients_week_string.replace("[","").replace("]","").split(',');
       
       const myChart = new Chart(install_clients_ctx, {
           type: 'line',
@@ -55,6 +57,9 @@
           }
       });
 
+      var arr_active_clients_week_string = '<%= arr_active_clients_week %>';
+      var arr_active_clients_week = arr_active_clients_week_string.replace("[","").replace("]","").split(',');
+      
       const myChart1 = new Chart(active_clients_ctx, {
           type: 'line',
           data: {
@@ -75,6 +80,36 @@
               }
           }
       });
+
+
+      var arr_km_in_month_string = '<%= arr_km_in_month %>';
+      var arr_km_in_month = arr_km_in_month_string.replace("[","").replace("]","").split(',');
+
+      
+      var arr_month_in_year_string = '<%= arr_month_in_year %>';
+      var arr_month_in_year = arr_month_in_year_string.replace("[","").replace("]","").split(',');
+      
+      const myChart2 = new Chart(statistics_month_ctx, {
+          type: 'line',
+          data: {
+              labels: arr_month_in_year,
+              datasets: [{
+                  label: 'Километраж бега в месяц',
+                  data: arr_km_in_month,
+                  backgroundColor: 'rgb(0,128,255)',
+                  borderColor: 'rgb(0,128,255)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
       </script>
       
   </main>
