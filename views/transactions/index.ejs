@@ -51,7 +51,7 @@
                         <% transactions.forEach(function(transaction) { %>
                             <tr>
                                 <td scope="row"><%= transaction.id %></td>
-                                <td><a href="/web/users/view?id=<%= transaction.user_id %>"><% if(transaction.user_name == '') {%> --Без имени-- <% } else { %> <%= transaction.user_name %> <% } %></a></td>
+                                <td><a href="/web/users/view?id=<%= transaction.user_id %>"><% if(transaction.user_name == '' || transaction.user_name == null) {%> --Без имени-- <% } else { %> <%= transaction.user_name %> <% } %></a></td>
                                 <td><%= transaction.operation %></td>
                                 <td><%= transaction.type %></td>
                                 <td><%= transaction.detail_id %></td>
