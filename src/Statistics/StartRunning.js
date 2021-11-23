@@ -12,17 +12,17 @@ module.exports = async function (req, res) {
 
             if (variant == 0) {
                 message = trophyТame + ", что сегодня пошел на тренировку."
-            }else if (variant == 1) {
+            } else if (variant == 1) {
                 message = trophyТame + ", что начал сегодня тренироваться."
-            }else if (variant == 2) {
+            } else if (variant == 2) {
                 message = "Бег продлевает тебе жизнь! Ты молодец " + trophyТame + ", что начал тренироваться!"
-            }else {
+            } else {
                 message = "Здорово, ты начал тренироваться. Я рад за тебя!"
             }
             
             let textMessage = {
-                "ru" : message,
-                "en" : message
+                "title": "Zippy",
+                "body" : message,
             };
 
             await db.mysqlInsert("INSERT INTO chat_log SET ?", {
@@ -32,14 +32,15 @@ module.exports = async function (req, res) {
                 type        : "message",
                 readed      : false
             });
-
-            NotificationService.sendPush(user.id, textMessage);
+            if (user.fcm_token != null && user.fcm_token != "") {
+                NotificationService.sendPush(user.fcm_token, textMessage);
+            }
         }, 300000, _user);
         
-        return res.status(200).json({ success : true, error_code: 0, error_message: ""})
+        return res.status(200).json({ success : true, code: 1, error: ""})
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : "Внутренняя ошибка системы", error_code: 2, error_message: "Внутренняя ошибка системы"})
+        return res.status(200).json({ success : false, code: 2, error : "Внутренняя ошибка системы"})
     }
 
 }

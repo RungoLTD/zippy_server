@@ -8,9 +8,9 @@ module.exports = async function (req, res) {
         // Обнуляем тренировки
         await db.mysqlUpdate("UPDATE user_trains SET end_day = ? WHERE end_day IS NULL AND user_id = ?", [new Date(), user.id]);
 
-        return res.status(200).json({ success : true })
+        return res.status(200).json({ success : true, code: 1 })
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : "Внутренняя ошибка системы" })
     }
 }

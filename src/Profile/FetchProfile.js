@@ -47,5 +47,5 @@ module.exports = async function (req, res) {
     user.statistics.totalDistance = results['SUM(meters)'];
     user.coins = transactions['SUM(amount)'];
     user.achievements = achievements;
-    res.status(200).json({ success: user != null, data: user, availLangs: ['English', 'Русский', '日本人'] });
+    return res.status(200).json({ success: user != null, code: 1, data: user, availLangs: ['English', 'Русский', '日本人'] });
 };

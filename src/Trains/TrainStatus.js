@@ -36,6 +36,7 @@ module.exports = async function (req, res) {
             await ChatService(user.id, 'Мы смогли это!!! Дааа… Мы теперь выглядим лучше, чем раньше. Думаю теперь мы можем выбрать тренировки еще сложнее!', 'endTrain', true);
             return res.status(200).json({ 
                 success : true, 
+                code: 1,
                 data : { 
                     hasActiveTrain : false, 
                     startDate : null, 
@@ -134,6 +135,7 @@ module.exports = async function (req, res) {
 
     res.status(200).json({ 
         success : result != null, 
+        code: 1, 
         data : { 
             hasActiveTrain : train != null, 
             startDate : new Date(result.start_day * 1000), 

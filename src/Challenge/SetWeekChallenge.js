@@ -14,8 +14,8 @@ module.exports = async function(req, res) {
             state: 0,
         });
 
-        return res.status(200).json({ success: true });
+        return res.status(200).json({ success: true, code: 1 });
     } catch (error) {
-        return res.status(200).json({ success: false, error: error });
+        return res.status(200).json({ success: false, code: 2, error: error });
     }
 };

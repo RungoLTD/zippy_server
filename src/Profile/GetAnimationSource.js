@@ -11,5 +11,5 @@ module.exports = async function (req, res) {
     
     // TODO: Set skin for user
     
-    return res.status(200).json({ success : user != null, data : animation })
+    return res.status(200).json({ success : user != null, code: 1, data : animation })
 }

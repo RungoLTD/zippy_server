@@ -31,5 +31,5 @@ module.exports = async function (req, res) {
         result.push(skin);
     });
 
-    return res.status(200).json({ success : skins != null, data : result })
+    return res.status(200).json({ success : skins != null, data : result, code: 1 })
 }

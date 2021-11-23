@@ -33,7 +33,7 @@ module.exports = async function (req, res) {
             let purchasedSkinsCount = await db.mysqlQuery("SELECT COUNT(*) as count FROM user_skins WHERE user_id = ?", [user.id]);
             if (purchasedSkinsCount["count"] == 2){
                 ChatService(user.id, "Спасибо за одежду, наконец я не голый!", "firstSkin", true);
-            }else{
+            } else {
                 if (purchasedSkinsCount["count"] == 3){
                     AchievmentService(user.id, 15)
                 }
@@ -47,12 +47,12 @@ module.exports = async function (req, res) {
                 ChatService(user.id, "Ура спасибо!!!Теперь я точно выгляжу круто!", "newSkin", true);
             }
 
-            return res.status(200).json({ success : result1 && result2 })
-        }else{
-            return res.status(200).json({ success : false, error : "Недостаточно средств на счете" });
+            return res.status(200).json({ success : result1 && result2, code: 1 })
+        } else {
+            return res.status(200).json({ success : false, code: 2, error : "Недостаточно средств на счете" });
         }
         
-    }else{
-        return res.status(200).json({ success : false, error : "Вы уже покупали данный скин" });
+    } else {
+        return res.status(200).json({ success : false, code: 2, error : "Вы уже покупали данный скин" });
     }
 }

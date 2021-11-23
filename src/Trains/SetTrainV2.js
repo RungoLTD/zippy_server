@@ -86,9 +86,9 @@ module.exports = async function (req, res) {
             });
         }
 
-        return res.status(200).json({ success: true, startDate: startDate, train: program });
+        return res.status(200).json({ success: true, code: 1, startDate: startDate, train: program });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success: false, error: 'Внутренняя ошибка системы' });
+        return res.status(200).json({ success: false, code: 2, error: 'Внутренняя ошибка системы' });
     }
 };

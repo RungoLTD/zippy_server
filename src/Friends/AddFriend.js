@@ -34,9 +34,9 @@ module.exports = async function (req, res) {
             NotificationService.sendPush(friend.fcm_token, textMessage);
         }
         
-        return res.status(200).json({ success : true })
+        return res.status(200).json({ success : true, code: 1 })
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : error || "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : error || "Внутренняя ошибка системы" })
     }
 }

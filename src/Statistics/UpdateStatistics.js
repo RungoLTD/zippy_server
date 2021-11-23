@@ -24,10 +24,10 @@ module.exports = async function (req, res) {
             AchievmentService(user.id, 18);
         }
         
-        return res.status(200).json({ success : true });
+        return res.status(200).json({ success : true, code: 1 });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : "Внутренняя ошибка системы" })
     }
 
 }

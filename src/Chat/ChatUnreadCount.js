@@ -12,5 +12,5 @@ module.exports = async function (req, res) {
         }
     }
 
-    return res.status(200).json({ success : count != null, data : count });
+    return res.status(200).json({ success : count != null, code: 1, data : count });
 }

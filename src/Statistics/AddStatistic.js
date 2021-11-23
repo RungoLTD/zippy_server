@@ -12,7 +12,7 @@ module.exports = async function addStatistics(req, res) {
     let paces = req.body.paces;
     
     if (meters == 0 && maxSpeed == 0 && avgSpeed == 0 && avgPace == 0){
-        return res.status(200).json({ success : false, error : "Вы не пробежали" })
+        return res.status(200).json({ success : false, code: 2, error : "Вы не пробежали" })
     }
 
     let routes = req.body.routes;
@@ -143,7 +143,7 @@ module.exports = async function addStatistics(req, res) {
 
 
         if (routes.length == 0){
-            return res.status(200).json({ success : true, data : { statisticId : insertId } });
+            return res.status(200).json({ success : true, code: 1, data : { statisticId : insertId } });
         }
         
         //await db.mysqlInsert("INSERT INTO running_routes (statistics_id, lon, lat, user_id) VALUES ?", [routeArray])
@@ -154,8 +154,6 @@ module.exports = async function addStatistics(req, res) {
         }
 
         ChatService(user.id, user.name + ", ты можешь отметить свое настроение после пробежки.", 'mood2', true);
-
-        res.status(200).json({ success : true, data : { statisticId : insertId } })
 
 
         // Проверка ачивки 1
@@ -183,9 +181,10 @@ module.exports = async function addStatistics(req, res) {
             AchievmentService(user.id, 6);
         }
 
+        return res.status(200).json({ success : true, code: 1, data : { statisticId : insertId } })
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : "Внутренняя ошибка системы" })
     }
 
 }

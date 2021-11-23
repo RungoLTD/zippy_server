@@ -15,9 +15,9 @@ module.exports = async function (req, res) {
             'UPDATE users SET name = ?, avatar = ?, mood_notify_time = ?, height = ?, weight = ?, trophy_name = ?, rebuke_name = ?, lang = ? WHERE access_token = ?',
             [name, avatar, moodNotifyTime, height, weight, trophyName, rebukeName, lang, req.body.accessToken],
         );
-        return res.status(200).json({ success: result != null });
+        return res.status(200).json({ success: result != null, code: 1 });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success: false, error: 'Внутренняя ошибка системы' });
+        return res.status(200).json({ success: false, code: 2, error: 'Внутренняя ошибка системы' });
     }
 };

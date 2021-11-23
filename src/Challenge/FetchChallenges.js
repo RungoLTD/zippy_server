@@ -60,8 +60,8 @@ module.exports = async function(req, res) {
             }
         }
 
-        return res.status(200).json({ success: true, data: challenges });
+        return res.status(200).json({ success: true, code: 1, data: challenges });
     } catch (error) {
-        return res.status(200).json({ success: false, error: error });
+        return res.status(200).json({ success: false, code: 2, error: error });
     }
 };

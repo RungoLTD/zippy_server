@@ -11,9 +11,9 @@ module.exports = async function (req, res) {
         console.log(friendId);
         await db.mysqlQuery("DELETE FROM friends WHERE (friend_id = ? AND user_id = ?) OR (friend_id = ? AND user_id = ?)", [user.id, friendId, friendId, user.id]);
         
-        return res.status(200).json({ success : true })
+        return res.status(200).json({ success : true, code: 1 })
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : error || "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : error || "Внутренняя ошибка системы" })
     }
 }

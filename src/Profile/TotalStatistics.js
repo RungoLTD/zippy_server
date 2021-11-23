@@ -28,5 +28,5 @@ module.exports = async function (req, res) {
     minDate = minDate.toISOString().slice(0, 19).replace('T', ' ');
 
     statistics = await db.mysqlQuery("SELECT SUM(meters) as distance, COUNT(id) as trainCount, AVG(avgSpeed) as avgSpeed, AVG(avgPace) as avgPace FROM statistics WHERE user_id = ? AND created > ?", [user.id, minDate]);
-    return res.status(200).json({ success : statistics != null, data : statistics })
+    return res.status(200).json({ success : statistics != null, code: 1, data : statistics })
 }

@@ -14,9 +14,9 @@ module.exports = async function (req, res) {
 
         await db.mysqlUpdate("UPDATE friends SET approved = ? WHERE id = ?", [true, relationship.id]);
         
-        return res.status(200).json({ success : true })
+        return res.status(200).json({ success : true, code: 1 })
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success : false, error : error || "Внутренняя ошибка системы" })
+        return res.status(200).json({ success : false, code: 2, error : error || "Внутренняя ошибка системы" })
     }
 }
