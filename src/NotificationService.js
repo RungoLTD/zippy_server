@@ -71,11 +71,17 @@ module.exports.notifyOldUsers = () => {
 
         for (let index = 0; index < nonActiveUsers.length; index++) {
             const element = nonActiveUsers[index];
+            // let textMessage = {
+            //     ru: element.name + ', Вы к нам давно не заходили. Мы вас очень сильно заждались.',
+            //     en: element.name + ', You have not come to us for a long time. We have been waiting for you very much.',
+            // };
             let textMessage = {
-                ru: element.name + ', Вы к нам давно не заходили. Мы вас очень сильно заждались.',
-                en: element.name + ', You have not come to us for a long time. We have been waiting for you very much.',
+                "title": "Zippy",
+                "body" : element.name + ', Вы к нам давно не заходили. Мы вас очень сильно заждались.',
             };
-            this.sendPush(element.id, textMessage);
+            if (element.fcm_token != null && element.fcm_token != "") {
+                this.sendPush(element.fcm_token, textMessage);
+            }
             await db.mysqlUpdate('UPDATE users SET last_notified_date = ? WHERE id = ?', [new Date(), element.id]);
         }
     });
