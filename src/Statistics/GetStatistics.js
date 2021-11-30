@@ -15,7 +15,6 @@ module.exports = async function (req, res) {
     if (statisticId == null) {
         try {
             let statistics = await db.mysqlQueryArray("SELECT * FROM statistics WHERE user_id = ? ORDER BY created DESC LIMIT ? OFFSET ?", [user.id, limit, offset]);
-            console.log(statistics);
             if (statistics == false) {
                 return res.status(200).json({ success: true, data: null, code: 1 })
             }

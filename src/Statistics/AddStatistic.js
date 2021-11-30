@@ -26,7 +26,7 @@ module.exports = async function addStatistics(req, res) {
 
     if (challenge != null){
         // Set challenge
-        console.log(challenge);
+        // console.log(challenge);
         var newMood = challenge.success ? user.mood + 15 : user.mood - 15;
         if (newMood < 0){
             newMood = 0;
@@ -71,7 +71,7 @@ module.exports = async function addStatistics(req, res) {
         let userTrainId = await db.mysqlQuery("SELECT *, UNIX_TIMESTAMP(start_day) as start_day FROM user_trains WHERE user_id = ? AND end_day IS NULL ORDER BY start_day DESC LIMIT 1", [user.id]);
         if (userTrainId != false){
             // Получаем детальную инфу о тренировке
-            console.log(userTrainId);
+            // console.log(userTrainId);
             
             train = {...trains[userTrainId.train_section][userTrainId.train_index]};
 

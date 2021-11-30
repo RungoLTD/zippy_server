@@ -25,7 +25,6 @@ module.exports = async function (req, res) {
             if(statistics != false){
                 for (const statistic of statistics){
                     let user = await db.mysqlQuery("SELECT name FROM users WHERE id = ?", [statistic.user_id]);
-                    // console.log(user.name);
                     statistic.user_name = user == false ? statistic.user_id : user.name;
                     statistic.meters = statistic.meters * 0.001;
                     statistic.time = toHHMMSS(statistic.time);
