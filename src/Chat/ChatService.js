@@ -19,6 +19,6 @@ module.exports = async function (userId, message, type, notify){
         readed      : false
     });
 
-    NotificationService.sendPush(userId, textMessage);
+    // NotificationService.sendPush(userId, textMessage);
 
 }
