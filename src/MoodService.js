@@ -62,8 +62,8 @@ module.exports.notifyOldMoodForgetUsers = async function() {
             var username = user.name || 'Приятель';
 
             let textMessage = {
-                ru: `Ты давно не следишь за своим настроением ${username}. Отметь сейчас`,
-                en: `You haven’t been watching your mood for a long time, ${username}. Mark now`,
+                "title": "Zippy",
+                "body" : `Ты давно не следишь за своим настроением ${username}. Отметь сейчас`
             };
 
             await db.mysqlInsert('INSERT INTO chat_log SET ?', {
@@ -74,7 +74,9 @@ module.exports.notifyOldMoodForgetUsers = async function() {
                 readed: false,
             });
 
-            NotificationService.sendPush(user.id, textMessage);
+            if (user.fcm_token != null && user.fcm_token != "") {
+                NotificationService.sendPush(user.fcm_token, textMessage);
+            }
             ChatService(user.user_id, `Ты давно не следишь за своим настроением ${username}. Отметь сейчас`, "moodService_4_1", true);
 
         }
