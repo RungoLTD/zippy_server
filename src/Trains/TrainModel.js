@@ -47,7 +47,7 @@ const rehabilitation = {
     isFree: true,
     сalories: 1,
     trainProgram: require('./Imports/Rehabilitation'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/rehabilitation.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/rehabilitation.jpg',
     title: {
         ru: 'Реабилитация после пневмнонии',
         en: 'Recovery from pneumonia',
@@ -99,7 +99,7 @@ const losingWeight = {
     isFree: false,
     сalories: 1,
     trainProgram: require('./Imports/losingWeight'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/losingWeight.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/losingWeight.jpg',
     title: {
         ru: 'Похудение',
         en: 'Slimming',
@@ -237,7 +237,7 @@ const begginers = {
     isFree: false,
     сalories: 1,
     trainProgram: require('./Imports/beginners'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/begginers.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/begginers.jpg',
     title: {
         ru: 'Начинающий',
         en: 'Beginning',
@@ -312,7 +312,7 @@ const children = {
     isFree: false,
     сalories: 1,
     trainProgram: null,
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/children.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/children.jpg',
     title: {
         ru: 'Детская',
         en: 'Children',
@@ -386,7 +386,7 @@ const marathon10 = {
     isFree: false,
     сalories: 1,
     trainProgram: require('./Imports/marathon10'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/marathon.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/marathon.jpg',
     title: {
         ru: 'Марафон 10',
         en: 'Marathon 10',
@@ -504,7 +504,7 @@ const halfMarathon = {
     isFree: false,
     сalories: 1,
     trainProgram: require('./Imports/halfMarathon'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/marathon.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/marathon.jpg',
     title: {
         ru: 'Полумарафон',
         en: 'Half marathon',
@@ -622,7 +622,7 @@ const marathon = {
     isFree: false,
     сalories: 1,
     trainProgram: require('./Imports/marathon'),
-    image: 'https://storage.yandexcloud.net/zippy-uploads/trains/marathon.jpg',
+    image: 'https://storage.yandexcloud.net/zippy-images/trains/marathon.jpg',
     title: {
         ru: 'Марафон',
         en: 'Marathon',
