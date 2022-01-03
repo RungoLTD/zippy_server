@@ -70,7 +70,7 @@ module.exports.notifyOldMoodForgetUsers = async function() {
                 user_id: user.user_id,
                 message: textMessage['ru'],
                 from_cat: true,
-                type: 'message',
+                type: 'msg',
                 readed: false,
             });
 
