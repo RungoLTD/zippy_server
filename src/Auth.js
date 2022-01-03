@@ -146,8 +146,6 @@ module.exports = async function auth(req, res) {
                 break;
             case 'email':
                 let pw = getSHA256(req.body.pw);
-
-                console.log(pw);
                 let user = await db.mysqlQuery("SELECT * FROM users WHERE auth_type = 'email' AND email = ? AND social_user_id = ?", [req.body.email, pw]);
 
                 if (user) {
@@ -198,6 +196,7 @@ module.exports = async function auth(req, res) {
                 return res.status(200).json({ success: false, code: 2, error: 'Не задан метод авторизации' }).end();
         }
     } catch (error) {
+        console.log(error);
         return res.status(200).json({ success: false, code: 2, error: error }).end();
     }
 };

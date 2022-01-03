@@ -51,6 +51,7 @@ module.exports = async function (req, res) {
             //     }
             // }
         } catch (ex) {
+            console.log(ex);
             return res.status(200).json({ success: false, data: [], code: 2, error: "Ошибка в БД" })
         }
         
@@ -60,6 +61,7 @@ module.exports = async function (req, res) {
             // let routes = await db.mysqlQueryArray("SELECT lon, lat FROM running_routes WHERE statistics_id = ?", statisticId);
             result["routes"] = JSON.parse(result["routes"]);
         } catch (ex) {
+            console.log(ex);
             return res.status(200).json({ success: false, data: [], code: 2, error: "Ошибка в БД" })
         }
         return res.status(200).json({ success: result != null, data: result, code: 1 })
