@@ -40,6 +40,7 @@ const CreateAccount = require('./src/CreateAccount');
 const RestoreAccount = require('./src/RestoreAccount');
 const SendFcmToken = require('./src/SendFcmToken');
 const FetchProfile = require('./src/Profile/FetchProfile');
+const DeleteProfile = require('./src/Profile/DeleteProfile');
 const UpdateTimezone = require('./src/Profile/UpdateTimezone');
 const UpdateProfile = require('./src/Profile/UpdateProfile');
 const GetAnimation = require('./src/Profile/GetAnimationSource');
@@ -341,6 +342,7 @@ app.post('/profile/update', UpdateProfile);
 app.post('/profile/setTimezone', UpdateTimezone);
 app.post('/profile/totalStatistics', TotalStastics);
 app.post('/profile/getAnimation', GetAnimation);
+app.post('/profile/delete', DeleteProfile);
 
 // Статистика
 app.post('/statistics/add', AddStatistics);
