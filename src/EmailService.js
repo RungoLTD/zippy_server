@@ -10,7 +10,7 @@ module.exports.sendEmail = async function(email, text) {
         secure: true,
         auth: {
             user: 'zippy.rungo@mail.ru',
-            pass: 'itpark407'
+            pass: 'ZippyZippy2022'
         }
     });
 
