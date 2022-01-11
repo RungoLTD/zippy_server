@@ -17,7 +17,7 @@ module.exports = async function (req, res) {
             await db.mysqlQuery('DELETE FROM user_train_journal WHERE user_id = ?', [user.id]);
             await db.mysqlQuery('DELETE FROM user_trains WHERE user_id = ?', [user.id]);
             await db.mysqlQuery('DELETE FROM week_challenges WHERE user_id = ?', [user.id]);
-            await db.mysqlQuery('DELETE FROM users WHERE user_id = ?', [user.id]);
+            await db.mysqlQuery('DELETE FROM users WHERE id = ?', [user.id]);
             
             return res.status(200).json({ success: true, code: 1 });
         }
