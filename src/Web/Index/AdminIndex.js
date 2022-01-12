@@ -43,7 +43,7 @@ module.exports = async function (req, res) {
                 let statistics_month = await db.mysqlQuery("SELECT SUM(meters) as meters FROM statistics WHERE created >= ? AND created < ?", [ created1, created2]);
                 
                 arr_km_in_month.push(parseInt(statistics_month.meters) * 0.001)
-                arr_month_in_year.push(moment(current_year+"-"+i+"-01").format('MMM'))
+                arr_month_in_year.push(moment(current_year+"-"+String("0" + i).slice(-2)+"-01").format('MMM'))
             }
 
             return res.render('index/index', {
