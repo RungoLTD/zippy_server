@@ -26,7 +26,10 @@ module.exports = async function (req, res) {
                 for (const user_train of user_trains){ 
                     let user = await db.mysqlQuery("SELECT name FROM users WHERE id = ?", [user_train.user_id]); 
                     user_train.start_day = moment(user_train.start_day).format('DD.MM.YYYY HH:mm');
-                    user_train.end_day = moment(user_train.end_day).format('DD.MM.YYYY HH:mm');
+                    if(user_train.end_day != null)
+                        user_train.end_day = moment(user_train.end_day).format('DD.MM.YYYY HH:mm');
+                    else
+                        user_train.end_day = "Тренировка не закончился"
                     user_train.user_name = user == false ? user_train.user_id : user.name;
                 }
             }
