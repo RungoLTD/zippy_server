@@ -6,7 +6,7 @@ module.exports = async function (req, res) {
             return res.redirect("/web/signin");
         } else {
             let achievements = await db.mysqlQueryArray("SELECT * FROM achievements ORDER BY `id` DESC LIMIT 25");
-            console.log(achievements);
+            
             return res.render('achievements/index', {
                 achievements: achievements,
             }); 

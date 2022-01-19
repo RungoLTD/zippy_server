@@ -68,7 +68,7 @@ module.exports.notifyOldMoodForgetUsers = async function() {
 
             await db.mysqlInsert('INSERT INTO chat_log SET ?', {
                 user_id: user.user_id,
-                message: textMessage['ru'],
+                message: textMessage['body'],
                 from_cat: true,
                 type: 'message',
                 readed: false,
