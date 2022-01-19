@@ -23,7 +23,7 @@ module.exports = async function (req, res) {
             coinsCount = 1200;
             break;
         case "ads":
-            coinsCount = 10;
+            coinsCount = 3;
             type = "ads"
             break;
         default:

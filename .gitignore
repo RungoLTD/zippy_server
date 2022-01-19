@@ -60,3 +60,4 @@ public/uploads/*
 /.env.staging
 /.env.testing
 /.env.production
+zippy.pem
