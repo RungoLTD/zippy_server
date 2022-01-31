@@ -113,6 +113,6 @@ module.exports = async function (req, res) {
         });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ success: false, code: 2, error: 'Внутренняя ошибка системы' });
+        return res.status(200).json({ success: false, code: 1, error: 'Внутренняя ошибка системы' });
     }
 };
