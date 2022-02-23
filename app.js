@@ -252,7 +252,7 @@ app.post('/upload', function (req, res) {
     let key = 'avatar-' + String(fileName) + '.png';
     buf = new Buffer(req.body.data.replace(/^data:image\/\w+;base64,/, ''), 'base64');
     var data = {
-        Bucket: 'zippy-uploads',
+        Bucket: 'zippy-images',
         Key: key,
         Body: buf,
         ContentEncoding: 'base64',
@@ -265,7 +265,7 @@ app.post('/upload', function (req, res) {
         } else {
             return res
                 .status(200)
-                .json({ success: false, data: { address: 'https://storage.yandexcloud.net/zippy-uploads/' + key } })
+                .json({ success: false, data: { address: 'https://storage.yandexcloud.net/zippy-images/' + key } })
                 .end();
         }
     });
