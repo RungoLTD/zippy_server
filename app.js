@@ -16,15 +16,15 @@ const cookieParser = require('cookie-parser')
 
 const UserNotifyService = require('./src/UserNotifyService');
 
-// var AWS = require('aws-sdk');
-// var ep = new AWS.Endpoint('storage.yandexcloud.net');
-// var s3 = new AWS.S3({
-//     region: 'us-east-1',
-//     sslEnabled: true,
-//     endpoint: ep,
-//     accessKeyId: process.env.YANDEX_STORAGE_KEY_ID,
-//     secretAccessKey: process.env.YANDEX_STORAGE_KEY_SECRET,
-// });
+var AWS = require('aws-sdk');
+var ep = new AWS.Endpoint('storage.yandexcloud.net');
+var s3 = new AWS.S3({
+    region: 'us-east-1',
+    sslEnabled: true,
+    endpoint: ep,
+    accessKeyId: process.env.YANDEX_STORAGE_KEY_ID,
+    secretAccessKey: process.env.YANDEX_STORAGE_KEY_SECRET,
+});
 
 const io = require('socket.io')({
     path: '/socket.io',
