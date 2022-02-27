@@ -46,8 +46,8 @@ module.exports = async function (req, res) {
 
                 ChatService(user.id, "Ура спасибо!!!Теперь я точно выгляжу круто!", "newSkin", true);
             }
-
-            return res.status(200).json({ success : result1 && result2, code: 1 })
+            let current_blance = balance - skin.cost
+            return res.status(200).json({ success : result1 && result2, code: 1, data: { fishcoins: current_blance, mood: (user.mood + 5) }})
         } else {
             return res.status(200).json({ success : false, code: 2, error : "Недостаточно средств на счете" });
         }
